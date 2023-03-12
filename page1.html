@@ -1,0 +1,585 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>jQuery GaugeMeter.js Examples</title>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/home/pconroy/Downloads/GaugeMeter/GaugeMeter.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  
+
+
+  <style>
+    body {
+      background-color: #2980B9
+    }
+
+    .GaugeMeter {
+      position: Relative;
+      text-align: Center;
+      overflow: Hidden;
+      cursor: Default;
+      display: inline-block;
+    }
+
+    .GaugeMeter SPAN,
+    .GaugeMeter B {
+      width: 54%;
+      position: Absolute;
+      text-align: Center;
+      display: Inline-Block;
+      color: RGBa(0, 0, 0, .8);
+      font-weight: 100;
+      font-family: "Open Sans", Arial;
+      overflow: Hidden;
+      white-space: NoWrap;
+      text-overflow: Ellipsis;
+      margin: 0 23%;
+    }
+
+    .GaugeMeter[data-style="Semi"] B {
+      width: 80%;
+      margin: 0 10%;
+    }
+
+    .GaugeMeter S,
+    .GaugeMeter U {
+      text-decoration: None;
+      font-size: .60em;
+      font-weight: 200;
+      opacity: .6;
+    }
+
+    .GaugeMeter B {
+      color: #000;
+      font-weight: 200;
+      opacity: .8;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="jquery-script-menu">
+    <div class="jquery-script-center">
+      <div class="jquery-script-clear"></div>
+    </div>
+  </div>
+
+  <!--     -->
+  <!--   BATTERY SECTION                            -->
+  <!--     -->
+
+  <div class="container"
+    style="margin:15px auto; text-align:center; border:2px solid #000; padding:10px; text-align:left">
+    <h5
+      style="color:white; font-family:'Fredoka One';font-size:large; font-variant: small-caps;">
+      Battery</h5>
+
+    <div class="GaugeMeter" id="Battery_SOC" data-percent="0" data-append="%" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Battery SOC" data-style="Arch" data-label_color="#FFF" data-animationstep=5>
+    </div>
+    <div class="GaugeMeter" id="Battery_Current" data-percent="0" data-append="A" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Battery Amps" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+
+    <div class="GaugeMeter" id="Battery_Voltage" data-percent="0" data-append="V" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Battery Voltage" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+  </div>
+
+
+  <!--     -->
+  <!--   PV SECTION                            -->
+  <!--     -->
+  <div class="container" 
+  style="margin:15px auto; text-align:center; border:2px solid #000; padding:10px; text-align:left">
+  <h5
+    style="color:white; font-family:'Fredoka One';font-size:large; font-variant: small-caps;">
+    Panels</h5>
+
+    <div class="GaugeMeter" id="PV_Current" data-percent="0" data-append="A" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="PV Amps" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+
+    <div class="GaugeMeter" id="PV_Voltage" data-percent="0" data-append="V" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="PV Voltage" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+
+    <div class="GaugeMeter" id="PV_Power" data-percent="0" data-append="W" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="PV Power" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+  </div>
+
+  <!--     -->
+  <!--   Load SECTION                            -->
+  <!--     -->
+  <div class="container"
+    style="margin:15px auto; text-align:center; border:2px solid #000; padding:10px; text-align:left">
+    <h5
+      style="color:white; font-family:'Fredoka One';font-size:large; font-variant: small-caps;">
+      Load</h5>
+
+    <div class="GaugeMeter" id="Load_Current" data-percent="0" data-append="A" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Load Amps" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+
+    <div class="GaugeMeter" id="Load_Voltage" data-percent="0" data-append="V" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Load Voltage" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+
+    <div class="GaugeMeter" id="Load_Power" data-percent="0" data-append="W" data-size="200" data-theme="White"
+      data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"
+      data-label="Load Power" data-style="Arch" data-label_color="FFF" data-animationstep=5></div>
+  </div>
+
+
+  <!--     -->
+  <!--   Misc SECTION                            -->
+  <!--     -->
+  <div class="container"
+    style="margin:15px auto; text-align:center; border:2px solid #000; padding:10px; text-align:left">
+    <h5 style="color:white; font-family:'Fredoka One';font-size:large; font-variant: small-caps;" id="info-container-text">
+      Info
+    </h5>
+
+    <div style="display: inline-block;">
+      <img id="is_night.icon" src="Nighttime.png" alt="Icon" style="width: 100px; height:100px; padding: 10px; margin-bottom: 40px;">
+      <img id="charging_status.icon" src="NotCharging.png" alt="Icon" style="width: 100px; height:100px; padding: 10px;margin-bottom: 40px;">
+    </div>
+
+    <div style="display: inline-block; margin-left: 20px;">
+      <span id="battery-temperature-value" class="temperature"
+        style="color:white; font-family: 'Fredoka One'; font-size: 40px;">&nbsp&nbsp-0°</span>
+      <p style="color:black; font-family: 'Fredoka One'; font-size: 20px; margin:0;">&nbspBattery</p>
+    </div>  
+
+    <div style="display: inline-block; margin-left: 20px;">
+      <span id="controller-temperature-value" class="temperature"
+        style="color:white; font-family: 'Fredoka One'; font-size: 40px;">&nbsp&nbsp-0°</span>
+      <p style="color:black; font-family: 'Fredoka One'; font-size: 20px; margin:0;">Controller</p>
+    </div>  
+
+  </div>
+
+
+
+  <script>
+    $(".GaugeMeter").gaugeMeter();
+
+    // -------------------------------------------------------------------------------------
+    function newBatteryVoltage(volts, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      var percent = (volts / (max - min) * 100).toPrecision(3);   // now a string
+
+      var data_used = volts;
+      var data_total = max - min;
+
+      console.log("Battery volts: " + volts);
+      //console.log("Percentage volts = " + percent);
+      //$('#PV_Voltage').data("theme", "Red-Gold-Green");
+      //$('#PV_Voltage').data("animate_gauge_colors", true);
+      //$('#PV_Voltage').data("text-size", 0.5);          // ignored???
+      if (percent < 33) {
+        $('#Battery_Voltage').data("label_color", "#FF0000");
+      } else if (percent < 66) {
+        $('#Battery_Voltage').data("label_color", "#FFFF00");
+        //$('#Battery_Voltage').data("stripe", 10 );
+      } else {
+        $('#Battery_Voltage').data("label_color", "#00FF00");
+      }
+
+      $('#Battery_Voltage').data("percent", parseInt(percent));
+      $('#Battery_Voltage').data("text", volts.toPrecision(3));
+      $('#Battery_Voltage').empty();
+      $('#Battery_Voltage').gaugeMeter();
+    }
+
+    function newBatteryCurrent(amps, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      //amps = amps.toPrecision(3);
+      var percent = (amps / (max - min) * 100).toPrecision(3);
+      console.log("Battery amps: " + amps);
+      // console.log("Percentage volts = " + percent);
+      $('#Battery_Current').data("percent", parseInt(percent));
+      $('#Battery_Current').data("text", amps.toPrecision(3));
+      $('#Battery_Current').empty();
+      $('#Battery_Current').gaugeMeter();
+    }
+    function newBatterySOC(soc) {
+      // https://github.com/Mictronics/GaugeMeter
+      //var percent = newvalue;
+      //console.log("New value: " + newvalue);
+      //console.log("Percentage = " + percent);
+      $('#Battery_SOC').data("percent", soc);
+      $('#Battery_SOC').data("text", soc);
+      $('#Battery_SOC').empty();
+      $('#Battery_SOC').gaugeMeter();
+    }
+
+    // -------------------------------------------------------------------------------------
+    function newPVVoltage(volts, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      var percent = (volts / (max - min) * 100).toPrecision(3);   // now a string
+
+      var data_used = volts;
+      var data_total = max - min;
+
+      console.log("PV volts: " + volts);
+      // console.log("Percentage volts = " + percent);
+      //$('#PV_Voltage').data("theme", "Red-Gold-Green");
+      //$('#PV_Voltage').data("animate_gauge_colors", true);
+      //$('#PV_Voltage').data("text-size", 0.5);          // ignored???
+      if (percent < 33) {
+        $('#PV_Voltage').data("label_color", "#FF0000");
+      } else if (percent < 66) {
+        $('#PV_Voltage').data("label_color", "#FFFF00");
+        //$('#PV_Voltage').data("stripe", 10 );
+      } else {
+        $('#PV_Voltage').data("label_color", "#00FF00");
+      }
+
+      $('#PV_Voltage').data("percent", parseInt(percent));
+      $('#PV_Voltage').data("text", volts.toPrecision(3));
+      $('#PV_Voltage').empty();
+      $('#PV_Voltage').gaugeMeter();
+    }
+
+
+    function newPVCurrent(amps, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      //amps = amps.toPrecision(3);
+      var percent = (amps / (max - min) * 100).toPrecision(3);
+      console.log("PV amps: " + amps);
+      //console.log("Percentage volts = " + percent);
+      $('#PV_Current').data("percent", parseInt(percent));
+      $('#PV_Current').data("text", amps.toPrecision(3));
+      $('#PV_Current').empty();
+      $('#PV_Current').gaugeMeter();
+    }
+
+    function newPVPower(watts, status, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      //watts = watts.toPrecision(1);
+      var percent = (watts / (max - min) * 100).toPrecision(3);
+      console.log("PV watts: " + watts);
+      //console.log("Percentage watts = " + percent);
+
+      if (watts > 10 && watts < 100)
+        watts = watts.toPrecision(2)
+      else if (watts > 10 && watts < 1000)
+        watts = watts.toPrecision(3)
+      //console.log( "Formatted wattage = [" + watts + "]" );
+
+      $('#PV_Power').data("percent", parseInt(percent));
+      $('#PV_Power').data("text", watts);
+      $('#PV_Power').empty();
+      $('#PV_Power').gaugeMeter();
+    }
+
+
+    // -------------------------------------------------------------------------------------
+    function newLoadVoltage(volts, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      var percent = ((volts - min) / (max - min) * 100).toPrecision(3);   // now a string
+
+      console.log("Load volts: " + volts);
+      console.log("Load volts Percentage = " + parseInt(percent));
+      //$('#Load_Voltage').data("theme", "Red-Gold-Green");
+      //$('#Load_Voltage').data("animate_gauge_colors", true);
+      //$('#Load_Voltage').data("text-size", 0.5);          // ignored???
+      if (volts <= 11) {
+        $('#Load_Voltage').data("label_color", "#FF0000");
+      } else if (volts <= 12) {
+        $('#Load_Voltage').data("label_color", "#FFFF00");
+        //$('#Load_Voltage').data("stripe", 10 );
+      } else {
+        $('#Load_Voltage').data("label_color", "#00FF00");
+      }
+
+      $('#Load_Voltage').data("percent", parseInt(percent));
+      $('#Load_Voltage').data("text", volts.toPrecision(3));
+      $('#Load_Voltage').empty();
+      $('#Load_Voltage').gaugeMeter();
+    }
+
+
+    function newLoadCurrent(amps, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      //amps = amps.toPrecision(3);
+      var percent = (amps / (max - min) * 100).toPrecision(3);
+      console.log("Load amps: " + amps);
+
+      if (amps > 0 && amps < 10)
+        amps = amps.toPrecision(2)
+      else if (amps > 10 && amps < 100)
+        amps = amps.toPrecision(2)
+      else if (watts > 10 && watts < 1000)
+        amps = amps.toPrecision(3)
+      console.log("Formatted amps = [" + amps + "]");
+
+
+      //console.log("Percentage volts = " + percent);
+      $('#Load_Current').data("percent", parseInt(percent));
+      $('#Load_Current').data("text", amps);
+      $('#Load_Current').empty();
+      $('#Load_Current').gaugeMeter();
+    }
+
+    function newLoadPower(watts, min, max) {
+      // https://github.com/Mictronics/GaugeMeter
+      //watts = watts.toPrecision(1);
+      var percent = (watts / (max - min) * 100);
+      console.log("Load watts: " + watts);
+      //console.log("Percentage watts = " + percent);
+      if (watts > 0 && watts < 10)
+        watts = watts.toPrecision(2)
+      else if (watts > 10 && watts < 100)
+        watts = watts.toPrecision(2)
+      else if (watts > 10 && watts < 1000)
+        watts = watts.toPrecision(3)
+      console.log("Formatted wattage = [" + watts + "]");
+
+      $('#Load_Power').data("percent", parseInt(percent));
+      $('#Load_Power').data("text", watts);
+      $('#Load_Power').empty();
+      $('#Load_Power').gaugeMeter();
+    }
+
+
+    // -------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------
+    function new_voltage_12(voltage, min, max, widget) {
+      // https://github.com/Mictronics/GaugeMeter
+      var percent = ((voltage - min) / (max - min) * 100).toPrecision(3);   // now a string
+
+      console.log("Calc: Volts:" + voltage + " Min:" + min + " Max:" + max + " %:" + parseInt(percent));
+      if (voltage <= 11.9) {
+        $(widget).data("label_color", "#FF0000");
+      } else if (voltage <= 12.3) {
+        $('#Load_Voltage').data("label_color", "#FFFF00");
+        //$('#Load_Voltage').data("stripe", 10 );
+      } else {
+        $(widget).data("label_color", "#00FF00");
+      }
+
+      if (voltage > 0 && voltage < 10) {
+        voltage = voltage.toPrecision(3)
+      } else if (voltage > 10 && voltage < 100) {
+        voltage = voltage.toPrecision(3)
+      } else if (voltage > 10 && voltage < 1000) {
+        voltage = voltage.toPrecision(3)
+      }
+
+      console.log("Formatted voltage = [" + voltage + "]");
+
+      $(widget).data("percent", parseInt(percent));
+      $(widget).data("text", voltage);
+      $(widget).empty();
+      $(widget).gaugeMeter();
+    }
+
+    // -------------------------------------------------------------------------------------
+    function updateBatteryTemperature (newTemperature) 
+    {
+      // Get the temperature span element by ID
+      const temperatureSpan = document.getElementById('battery-temperature-value');
+      // Update the temperature value with the new data
+      temperatureSpan.innerText = newTemperature + "°";
+    }
+
+    // -------------------------------------------------------------------------------------
+    function updateControllerTemperature (newTemperature) 
+    {
+      // Get the temperature span element by ID
+      const temperatureSpan = document.getElementById('controller-temperature-value');
+     // Update the temperature value with the new data
+      temperatureSpan.innerText = " " + newTemperature + "°";
+    }
+
+    // -------------------------------------------------------------------------------------
+    function updateControllerDateTime (newDateTime) 
+    {
+      // Get the temperature span element by ID
+      const temperatureSpan = document.getElementById('info-container-text');
+     // Update the temperature value with the new data
+      temperatureSpan.innerText = "Info As Of     " + newDateTime;
+    }
+
+    
+
+    // -------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------
+
+
+  window.onload = function () {
+      // Initialization function
+      initialize();
+    };
+
+  window.addEventListener('beforeunload', function (e) {
+    console.log("Unload called!");
+    client.disconnect();
+  });
+
+
+    function initialize() {
+      // Code to initialize your JavaScript code
+      console.log("Initialize called!");
+      connect();
+    }
+
+
+
+    var client = null;
+    function connect() {
+      var broker = "ws://192.168.161.215:9001/mqtt";
+      var clientId = "clientId-" + Math.random().toString(16).substr(2, 8);
+      client = new Paho.MQTT.Client(broker, clientId);
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
+      client.connect({ onSuccess: onConnect });
+    }
+
+    function onConnect() {
+      console.log("Connected!");
+      var topic = document.getElementById("topic").value;
+      client.subscribe(topic);
+    }
+
+    function onConnectionLost(responseObject) {
+      console.log("Connection lost: " + responseObject.errorMessage);
+    }
+
+    function onMessageArrived(message) {
+      console.log("Message received: " + message.payloadString);
+      //var div = document.createElement("div");
+      //div.appendChild(document.createTextNode(message.payloadString));
+      //document.getElementById("messages").appendChild(div);
+      /*
+            "topic":"SCC/1/DATA",
+              "version":"3.0",
+              "dateTime":"2023-03-05T09:51:05-0700",
+              "controllerDateTime":"03/05/23 09:51:04",
+              "isNightTime":false,
+              "loadIsOn":true,
+              "pvVoltage":16.04,
+              "pvCurrent":3.32,
+              "pvPower":52.45,
+              "pvStatus":"Normal",
+              "loadVoltage":14.47,
+              "loadCurrent":0.35,
+              "loadPower":4.63,
+              "loadLevel":"Light",
+              "loadControlMode":"Manual",
+              "batterySOC":100,
+              "batteryVoltage":14.49,
+              "batteryCurrent":3.31,
+              "batteryStatus":"Normal",
+              "batteryMaxVoltage":14.49,
+              "batteryMinVoltage":14.47,
+              "batteryChargingStatus":"Boosting",
+              "batteryTemperature":36.8,
+              "controllerTemperature":38.1,
+              "chargerStatusNormal":"No",
+              "chargerRunning":"Yes",
+              "deviceArrayChargingStatusBits":11,
+              "energyConsumedToday":0,
+              "energyConsumedMonth":0,
+              "energyConsumedYear":0.69,
+              "energyConsumedTotal":78.42,
+              "energyGeneratedToday":0,
+              "energyGeneratedMonth":0,
+              "energyGeneratedYear":3.69,
+              "energyGeneratedTotal":197.69
+            } */
+
+      try {
+        const obj = JSON.parse(message.payloadString);
+        console.log("Topic: [" + obj.topic + "]");
+        console.log("PV Volts: " + obj.pvVoltage);
+        console.log("PV Current: " + obj.pvCurrent);
+        newBatterySOC(obj.batterySOC);
+        newBatteryVoltage(obj.batteryVoltage, 10, 15);
+        newBatteryCurrent(obj.batteryCurrent, 0, 30);
+        // obj.batteryTemperature
+        // obj.batteryChargingStatus
+        // obj.batteryTembatteryStatusperature
+
+        newPVVoltage(obj.pvVoltage, 0, 24);
+        newPVCurrent(obj.pvCurrent, 0, 10);
+        newPVPower(obj.pvPower, obj.pvStatus, 0, 200);
+
+        newLoadVoltage(obj.loadVoltage, 10, 15);
+        newLoadCurrent(obj.loadCurrent, 0, 20);
+        newLoadPower(obj.loadPower, 0, 200);
+
+        console.log( "Is Night Time:" + obj.isNightTime );
+        icon = document.getElementById("is_night.icon"); // Select <img> element
+        switch (obj.isNightTime) { // Map value to PNG icon file
+          case false: icon.src = "Daytime.png"; break;
+          case true:  icon.src="Nighttime.png";     break;
+          default: icon.src = "";         break;
+        }
+
+        // 00H No charging,01H Float,02H Boost, 03H Equalization.
+        console.log( "Charging Status:" + obj.batteryChargingStatus );
+        icon = document.getElementById("charging_status.icon"); // Select <img> element
+        switch (obj.batteryChargingStatus[0]) {
+          case 'F': icon.src = "Floating.png";  break;
+          case 'B': icon.src = "Boosting.png";  break;
+          case 'E': icon.src = "Equalizing.png";  break;
+          default: icon.src = "NotCharging.png";         break;
+        } 
+
+        // batteryTemperature
+        //temperatureValue = document.getElementById("battery-temperature-value");
+        //temperatureValue.innerHTML = `${obj.batteryTemperature}°F`;
+        updateBatteryTemperature( obj.batteryTemperature );
+
+        // controllerTemperature
+        updateControllerTemperature( obj.controllerTemperature );
+
+        updateControllerDateTime( obj.controllerDateTime );
+
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+
+  </script>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <p>Topic: <input type="text" id="topic" value="SCC/1/DATA"></p>
+  <p><button onclick="connect()">Connect</button></p>
+
+  <button onclick="new_voltage_12(11.2,10.0,15.0,'#Load_Voltage')">Change voltage to 11.2V</button>
+  <button onclick="new_voltage_12(12.3,10.0,15.0,'#Load_Voltage')">Change voltage to 12.3V</button>
+  <button onclick="new_voltage_12(14.19,10.0,15.0,'#Load_Voltage')">Change voltage to 14.2</button>
+  <br>
+  <button onclick="newPVCurrent(5.7,0.0,10.0)">Change current to 5.7A</button>
+  <br>
+  <button onclick="newPVPower(1.1, 'NoRmAl', 0, 200)">Change watts to 1.1W</button>
+  <button onclick="newPVPower(10.5, 'NoRmAl', 0, 200)">Change watts to 10.5W</button>
+  <button onclick="newPVPower(100.9, 'NoRmAl', 0, 200)">Change watts to 100W.9</button>
+</body>
+
+</html>
